@@ -1,0 +1,21 @@
+.loginForm{
+  display:flex;
+  flex-direction: column;
+  margin:50px;
+  background-color: rgb(15, 150, 155);
+}
+
+.loginInput{
+  margin:25px;
+  margin-top: 0px;
+}
+
+.loginButton{
+  width:60px;
+  margin-bottom: 25px;
+  align-self: center;
+}
+
+.loginLabel{
+  margin-top: 5px;
+}
