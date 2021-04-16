@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-import './styles/Login.css'
+import service from '../service';
+import './styles/Login.css';
+import LoginPayload from '../interfaces/loginPayload';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -24,7 +26,16 @@ function Login() {
 
       if (!password.length||!username.length) return setErrorMessage('Please fill all fields');
 
-      //login service
+      service.login({name:username, password:password})
+      .then((res:LoginPayload)=>{
+        if (res) {
+          console.log(res.name);
+        } else {
+          setErrorMessage('Login unsuccessful please check username/password');
+        }
+      })
+      .catch((e:string) => console.error(e));
+
     } else {
 
       if (password!==passwordConfirm) return setErrorMessage('Passwords do not match');
