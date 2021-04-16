@@ -3,7 +3,7 @@ import os
 import controllers.users
 from flask_marshmallow import Marshmallow
 from models.user import db, User
-from appFile import request, app 
+from appFile import request, app
 
 config = open('config.txt','r')
 
@@ -11,6 +11,7 @@ uri = config.read()
 
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 config.close()
 
