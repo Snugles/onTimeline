@@ -9,8 +9,8 @@ const apiRequests = {
       .then((results) =>results.json())
       .catch((e:string)=>console.error(e));
   },
-  register: (payload:any) => {
-    return fetch('http://localhost:5000/accounts/register',{
+  register: (payload:LoginPayload) => {
+    return fetch('http://localhost:5000/user',{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)})

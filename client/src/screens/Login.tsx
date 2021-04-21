@@ -41,7 +41,16 @@ function Login() {
       if (password!==passwordConfirm) return setErrorMessage('Passwords do not match');
       if (!password.length||!username.length) return setErrorMessage('Please fill all fields');
       
-      //register sevice
+      service.register({name:username, password:password})
+      .then((res:LoginPayload)=>{
+        if (res) {
+          setLoginMode(!loginMode);
+          setErrorMessage('Registration successful please login');
+        } else {
+          setErrorMessage('Registration unsuccessful please try again');
+        }
+      })
+      .catch((e:string) => console.error(e));
     }
   }
   return (
