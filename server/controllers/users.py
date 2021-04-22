@@ -1,5 +1,5 @@
 from appFile import request, app, ma, cross_origin
-from models.user import db, User
+from models.index import db, User
 
 
 class UserSchema(ma.Schema):

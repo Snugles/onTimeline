@@ -1,8 +1,8 @@
 import psycopg2
 import os
 import controllers.users
+import controllers.timelines
 from flask_marshmallow import Marshmallow
-from models.user import db, User
 from appFile import request, app
 
 config = open('config.txt','r')
@@ -16,9 +16,3 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 config.close()
 
 ma = Marshmallow(app)
-
-class UserSchema(ma.Schema):
-  class Meta:
-    fields = ('id', 'name', 'password', 'date_created')
-
-user_schema = UserSchema()
