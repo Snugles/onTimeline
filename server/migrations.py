@@ -27,5 +27,18 @@ class User(db.Model):
   password = db.Column(db.String(50))
   date_created = db.Column(db.DateTime, default=datetime.now)
 
+class Timeline(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(50))
+  user_id =  db.Column(db.Integer, db.ForeignKey('user.id'))
+  date_created = db.Column(db.DateTime, default=datetime.now)
+
+class Events(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(50))
+  info = db.Column(db.String(511))
+  timeline_id =  db.Column(db.Integer, db.ForeignKey('timeline.id'))
+  date_created = db.Column(db.DateTime, default=datetime.now)
+
 if __name__ == '__main__':
   manager.run()
