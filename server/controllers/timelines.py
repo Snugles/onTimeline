@@ -1,5 +1,6 @@
 from appFile import request, app, ma, cross_origin
 from models.index import db, Timeline
+from flask import jsonify
 
 class TimelineSchema(ma.Schema):
   class Meta:
@@ -7,21 +8,29 @@ class TimelineSchema(ma.Schema):
 
 timeline_schema = TimelineSchema()
 
-@app.route('/timeline', methods=['POST','GET'])
+@app.route('/timeline', methods=['POST'])
 @cross_origin()
-def timeline():
-  if request.method == 'POST':
-    user_id = request.json['user_id']
-    name =request.json['name']
+def create():
+  user_id = request.json['user_id']
+  name =request.json['name']
 
-    new_timeline = Timeline(name,user_id)
+  new_timeline = Timeline(name,user_id)
 
-    db.session.add(new_timeline)
-    db.session.commit()
-    return timeline_schema.jsonify(new_timeline)
-  else:
-    user_id = request.json['user_id']
+  db.session.add(new_timeline)
+  db.session.commit()
+  return timeline_schema.jsonify(new_timeline)
 
-    timeline = User.query.filter_by(user_id=user_id).all()
+@app.route('/userTimeline', methods=['POST'])
+@cross_origin()
+def get():
+  userID = request.json['user_id']
 
-    return timeline_schema.jsonify(timeline)
+  print(userID)
+
+  timeline = Timeline.query.filter_by(user_id=userID).all()
+  
+  output = []
+  for element in timeline:
+    output.append({'name':element.name, 'id':element.id})
+  
+  return jsonify(output)
