@@ -25,12 +25,10 @@ def create():
 def get():
   userID = request.json['user_id']
 
-  print(userID)
-
   timeline = Timeline.query.filter_by(user_id=userID).all()
-  
+
   output = []
   for element in timeline:
     output.append({'name':element.name, 'id':element.id})
-  
+
   return jsonify(output)
