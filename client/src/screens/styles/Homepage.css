@@ -1,0 +1,13 @@
+.HomeContainer{
+  display:flex;
+  flex-direction: column;
+  padding:15px;
+  margin:50px;
+  background-color: rgb(15, 150, 155);
+}
+
+.HomeTimelineButton{
+  padding:10px;
+  margin:5px;
+  align-self:center;
+}
