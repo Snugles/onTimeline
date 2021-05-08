@@ -2,6 +2,7 @@ import psycopg2
 import os
 import controllers.users
 import controllers.timelines
+import controllers.events
 from flask_marshmallow import Marshmallow
 from appFile import request, app
 
