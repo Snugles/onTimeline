@@ -11,12 +11,14 @@ class Events(db.Model):
   name = db.Column(db.String(50))
   info = db.Column(db.String(511))
   timeline_id =  db.Column(db.Integer, db.ForeignKey('timeline.id'))
+  timeline_date = db.Column(db.Integer)
   date_created = db.Column(db.DateTime, default=datetime.now)
   
-  def __init__(self, name, info, timeline_id):
+  def __init__(self, name, info, timeline_id, timeline_date):
     self.name = name
     self.info = info
     self.timeline_id = timeline_id
+    self.timeline_date = timeline_date
 
 class User(db.Model):
   id = db.Column(db.Integer, primary_key=True)
