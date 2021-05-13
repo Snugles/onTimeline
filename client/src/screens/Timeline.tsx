@@ -7,14 +7,10 @@ function Timeline() {
   const [events, setEvents] = useState([{name:'',id:'',info:'',timeline_date:0, screenpos:0}]);
   
   const positionEvents = (sortedEvents:any[]) => {
-    let timelineLength:number;
     const dateDifference:number = sortedEvents[sortedEvents.length-1].timeline_date - sortedEvents[0].timeline_date;
 
-    if (window.innerWidth<500) timelineLength=500;
-    else timelineLength = window.innerWidth;
-
     for (const event of sortedEvents) {
-      event.screenpos = timelineLength/dateDifference*(event.timeline_date-sortedEvents[0].timeline_date);
+      event.screenpos = 95/dateDifference*(event.timeline_date-sortedEvents[0].timeline_date);
     }
     return sortedEvents;
   }
@@ -29,7 +25,6 @@ function Timeline() {
       });
   },[]);
 
-
   return (
     <div className="TimelineContainer">
       {events&&events.length?
@@ -41,6 +36,7 @@ function Timeline() {
             timeline_date={element.timeline_date}
             timelinePosition={element.screenpos}/>)
         :<p>No events</p>}
+      <button onClick={()=>setEvents(positionEvents(events))}>click me</button>
       <div className="TimelineTimeline"/>
     </div>
   );
