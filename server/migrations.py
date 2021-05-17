@@ -38,7 +38,7 @@ class Events(db.Model):
   name = db.Column(db.String(50))
   info = db.Column(db.String(511))
   timeline_id =  db.Column(db.Integer, db.ForeignKey('timeline.id'))
-  timeline_date = db.Column(db.Integer)
+  timeline_date = db.Column(db.String(14))
   date_created = db.Column(db.DateTime, default=datetime.now)
 
 if __name__ == '__main__':

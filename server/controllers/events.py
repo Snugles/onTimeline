@@ -16,7 +16,7 @@ def addEvent():
   timeline_id = request.json['timeline_id']
   timeline_date = request.json['timeline_date']
 
-  new_event = Events(name, info, timeline_id)
+  new_event = Events(name, info, timeline_id, timeline_date)
 
   db.session.add(new_event)
   db.session.commit()
