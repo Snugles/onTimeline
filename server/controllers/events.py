@@ -4,7 +4,7 @@ from flask import jsonify
 
 class EventSchema(ma.Schema):
   class Meta:
-    fields = ('id', 'name', 'info', 'timeline_id', 'timeline_date', 'date_created')
+    fields = ('id', 'name', 'info', 'timeline_id', 'day', 'month', 'year', 'time', 'date_created')
 
 event_schema = EventSchema()
 
@@ -14,9 +14,12 @@ def addEvent():
   info = request.json['info']
   name = request.json['name']
   timeline_id = request.json['timeline_id']
-  timeline_date = request.json['timeline_date']
+  day = request.json['day']
+  month = request.json['month']
+  year = request.json['year']
+  time = request.json['time']
 
-  new_event = Events(name, info, timeline_id, timeline_date)
+  new_event = Events(name, info, timeline_id, day, month, year, time)
 
   db.session.add(new_event)
   db.session.commit()
@@ -31,7 +34,7 @@ def getEvents():
 
   output = []
   for element in events:
-    output.append({'name':element.name, 'id':element.id, 'info':element.info, 'timeline_date':element.timeline_date})
+    output.append({'name':element.name, 'id':element.id, 'info':element.info, 'day':element.day, 'month':element.month, 'year':element.year, 'time':element.time})
 
   return jsonify(output)
 
@@ -41,13 +44,19 @@ def eventEditInfo():
   id = request.json['id']
   info = request.json['info']
   name = request.json['name']
-  timeline_date = request.json['timeline_date']
+  day = request.json['day']
+  month = request.json['month']
+  year = request.json['year']
+  time = request.json['time']
 
   event = Events.query.filter_by(id=id).first()
 
   event.info = info
   event.name = name
-  event.timeline_date = timeline_date
+  event.day = day
+  event.month = month
+  event.year = year
+  event.time = time
   db.session.commit()
 
-  return jsonify({'name':event.name,'info':event.info, 'timeline_date':event.timeline_date})
+  return jsonify({'name':event.name,'info':event.info, 'day':event.day, 'month':event.month, 'year':event.year, 'time':event.time})
