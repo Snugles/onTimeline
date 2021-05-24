@@ -7,35 +7,36 @@ function Timeline() {
   const [events, setEvents] = useState([{name:'',id:'',info:'',day:0,month:0,year:0,time:0, screenpos:0}]);
   const [currentTLLength, setCurrentTLLength] = useState('Year');
   const [currentTLStart, setCurrentTLStart] = useState(0);
-  const [currentTLEvents, setCurrentEvents] = useState([{name:'',id:'',info:'',day:0,month:0,year:0,time:0, screenpos:0}])
+  const [currentTLEvents, setCurrentTLEvents] = useState([{name:'',id:'',info:'',day:0,month:0,year:0,time:0, screenpos:0}])
   
-  const positionEvents = (sortedEvents:any[]) => {
+  const positionEvents = (sortedEvents:any[],TLStart:number=currentTLStart) => {
     const output:any[] = [];
+    console.log(currentTLLength)
     if (currentTLLength==='Year') {
       for (const event of sortedEvents) {
-        if (event.year === currentTLStart) {
-          event.screenpos = (event.month+event.day/30)/12;
+        if (event.year === TLStart) {
+          event.screenpos = (event.month+event.day/30)/12*100;
           output.push(event);
         }
       }
     } else if (currentTLLength==='Decade') {
       for (const event of sortedEvents) {
-        if (event.year<=currentTLStart && event.year>currentTLStart-10) {
-          event.screenpos = (event.year-currentTLStart+event.month/12)/10;
+        if (event.year<=TLStart && event.year>TLStart-10) {
+          event.screenpos = (event.year-TLStart+event.month/12)/10*100;
           output.push(event);
         }
       }
     } else if (currentTLLength==='Century') {
       for (const event of sortedEvents) {
-        if (event.year <= currentTLStart&&event.year>currentTLStart-100) {
-          event.screenpos = (event.year-currentTLStart)/100;
+        if (event.year <= TLStart&&event.year>TLStart-100) {
+          event.screenpos = (event.year-TLStart)/100*100;
           output.push(event);
         }
       }
     } else {
       for (const event of sortedEvents) {
-        if (event.year<=currentTLStart && event.year>currentTLStart-1000) {
-          event.screenpos = (event.year-currentTLStart)/1000;
+        if (event.year<=TLStart && event.year>TLStart-1000) {
+          event.screenpos = (event.year-TLStart)/1000*100;
           output.push(event);
         }
       }
@@ -43,6 +44,10 @@ function Timeline() {
     
     return sortedEvents;
   }
+
+  useEffect(()=>{
+    setCurrentTLEvents(positionEvents(events));
+  },[currentTLLength]);
 
   useEffect(()=>{
     service.getEvents({timeline_id:1})
@@ -55,7 +60,7 @@ function Timeline() {
         })
         setCurrentTLStart(sortedEvents[0].year);
         setEvents(sortedEvents);
-        setCurrentEvents(positionEvents(sortedEvents));
+        setCurrentTLEvents(positionEvents(sortedEvents,sortedEvents[0].year));
       });
   },[]);
 
@@ -64,15 +69,20 @@ function Timeline() {
       <div className="TimelineTimeline"/>
       {currentTLEvents&&currentTLEvents.length?
         currentTLEvents.map(element=>
-          <Event
-            id={element.id}
-            info={element.info}
-            name={element.name}
-            timeline_date={element.day}
-            timelinePosition={element.screenpos}/>)
+          <div style={{left: element.screenpos+'%'}}>
+            <Event
+              id={element.id}
+              info={element.info}
+              name={element.name}
+              timeline_date={element.day}
+              timelinePosition={element.screenpos}/>
+            </div>)
         :<p>No events</p>}
       <button onClick={()=>setCurrentTLLength('Year')}>Year</button>
-      <button onClick={()=>setCurrentTLLength('Decade')}>Decade</button>
+      <button onClick={()=>{
+          setCurrentTLEvents(positionEvents(events));
+          setTimeout(()=>setCurrentTLLength('Decade'),0)
+        }}>Decade</button>
       <button onClick={()=>setCurrentTLLength('Century')}>Century</button>
       <button onClick={()=>setCurrentTLLength('Millenium')}>Millenium</button>
     </div>
