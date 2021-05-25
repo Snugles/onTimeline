@@ -7,11 +7,10 @@ function Timeline() {
   const [events, setEvents] = useState([{name:'',id:'',info:'',day:0,month:0,year:0,time:0, screenpos:0}]);
   const [currentTLLength, setCurrentTLLength] = useState('Year');
   const [currentTLStart, setCurrentTLStart] = useState(0);
-  const [currentTLEvents, setCurrentTLEvents] = useState([{name:'',id:'',info:'',day:0,month:0,year:0,time:0, screenpos:0}])
   
+  let output:any[]=[];
   const positionEvents = (sortedEvents:any[],TLStart:number=currentTLStart) => {
     const output:any[] = [];
-    console.log(currentTLLength)
     if (currentTLLength==='Year') {
       for (const event of sortedEvents) {
         if (event.year === TLStart) {
@@ -45,9 +44,10 @@ function Timeline() {
     return sortedEvents;
   }
 
-  useEffect(()=>{
-    setCurrentTLEvents(positionEvents(events));
-  },[currentTLLength]);
+  if (events&&events.length) {
+    output = positionEvents(events);
+  }
+
 
   useEffect(()=>{
     service.getEvents({timeline_id:1})
@@ -60,15 +60,14 @@ function Timeline() {
         })
         setCurrentTLStart(sortedEvents[0].year);
         setEvents(sortedEvents);
-        setCurrentTLEvents(positionEvents(sortedEvents,sortedEvents[0].year));
       });
   },[]);
 
   return (
     <div className="TimelineContainer">
       <div className="TimelineTimeline"/>
-      {currentTLEvents&&currentTLEvents.length?
-        currentTLEvents.map(element=>
+      {output&&output.length?
+        output.map(element=>
           <div style={{left: element.screenpos+'%'}}>
             <Event
               id={element.id}
@@ -79,10 +78,7 @@ function Timeline() {
             </div>)
         :<p>No events</p>}
       <button onClick={()=>setCurrentTLLength('Year')}>Year</button>
-      <button onClick={()=>{
-          setCurrentTLEvents(positionEvents(events));
-          setTimeout(()=>setCurrentTLLength('Decade'),0)
-        }}>Decade</button>
+      <button onClick={()=>setCurrentTLLength('Decade')}>Decade</button>
       <button onClick={()=>setCurrentTLLength('Century')}>Century</button>
       <button onClick={()=>setCurrentTLLength('Millenium')}>Millenium</button>
     </div>
