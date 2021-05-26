@@ -1,6 +1,4 @@
-interface eventTypes {
-  id:string,
-  timelinePosition:number,
+interface eventSubmissionTypes {
   info:string,
   name:string,
   day:number,
@@ -8,4 +6,4 @@ interface eventTypes {
   year:number,
   time:number
 }
-export default eventTypes;
+export default eventSubmissionTypes;

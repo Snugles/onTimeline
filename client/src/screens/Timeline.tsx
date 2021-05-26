@@ -7,6 +7,12 @@ function Timeline() {
   const [events, setEvents] = useState([{name:'',id:'',info:'',day:0,month:0,year:0,time:0, screenpos:0}]);
   const [currentTLLength, setCurrentTLLength] = useState('Year');
   const [currentTLStart, setCurrentTLStart] = useState(0);
+  const [newName, setNewName] = useState('');
+  const [newInfo, setNewInfo] = useState('');
+  const [newDay, setNewDay] = useState(0);
+  const [newMonth, setNewMonth] = useState(0);
+  const [newYear, setNewYear] = useState(0);
+  const [newTime, setNewTime] = useState('');
   
   let output:any[]=[];
   const positionEvents = (sortedEvents:any[],TLStart:number=currentTLStart) => {
@@ -63,6 +69,27 @@ function Timeline() {
       });
   },[]);
 
+  const handleSubmit = async (e:any) => {
+    e.preventDefault();
+    service.addEvent({info:newInfo, name:newName, day:newDay, month:newMonth, year:newYear, time:parseInt(newTime)});
+  }
+
+  const handleChange = (e:any) => {
+    if (e.target.name==='name'){
+      setNewName(e.target.value);
+    } else if (e.target.name==='info'){
+      setNewInfo(e.target.value);
+    } else if (e.target.name==='day') {
+      setNewDay(e.target.value);
+    } else if (e.target.name==='month') {
+      setNewMonth(e.target.value);
+    } else if (e.target.name==='year') {
+      setNewYear(e.target.value); 
+    } else {
+      setNewTime(e.target.value);
+    }
+  }
+
   return (
     <div className="TimelineContainer">
       <div className="TimelineTimeline"/>
@@ -73,7 +100,10 @@ function Timeline() {
               id={element.id}
               info={element.info}
               name={element.name}
-              timeline_date={element.day}
+              day={element.day}
+              month={element.month}
+              year={element.year}
+              time={element.time}
               timelinePosition={element.screenpos}/>
             </div>)
         :<p>No events</p>}
@@ -81,6 +111,23 @@ function Timeline() {
       <button onClick={()=>setCurrentTLLength('Decade')}>Decade</button>
       <button onClick={()=>setCurrentTLLength('Century')}>Century</button>
       <button onClick={()=>setCurrentTLLength('Millenium')}>Millenium</button>
+      <form onSubmit = {handleSubmit} className='homeForm'>
+        <label>Name:</label>
+        <textarea value={newName} onChange={handleChange} name='name'></textarea>
+        <label>Info:</label>
+        <textarea value={newInfo} onChange={handleChange} name='info'></textarea>
+        <label>Day:</label>
+        <input value={newDay} onChange={handleChange} name='day'></input>
+        <input type="submit" value="Create Topic"/>
+        <label>Month:</label>
+        <input value={newMonth} onChange={handleChange} name='month'></input>
+        <input type="submit" value="Create Topic"/>
+        <label>Year:</label>
+        <input value={newYear} onChange={handleChange} name='year'></input>
+        <input type="submit" value="Create Topic"/>
+        <input value={newTime} onChange={handleChange} type='time'></input>
+        <input type="submit" value="Create Topic"/>
+      </form>
     </div>
   );
 }
