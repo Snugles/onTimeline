@@ -26,28 +26,28 @@ function Timeline() {
       }
     } else if (currentTLLength==='Decade') {
       for (const event of sortedEvents) {
-        if (event.year<=TLStart && event.year>TLStart-10) {
+        if (event.year>=TLStart && event.year-10<TLStart) {
           event.screenpos = (event.year-TLStart+event.month/12)/10*100;
           output.push(event);
         }
       }
     } else if (currentTLLength==='Century') {
       for (const event of sortedEvents) {
-        if (event.year <= TLStart&&event.year>TLStart-100) {
+        if (event.year>=TLStart&&event.year-100<TLStart) {
           event.screenpos = (event.year-TLStart)/100*100;
           output.push(event);
         }
       }
     } else {
       for (const event of sortedEvents) {
-        if (event.year<=TLStart && event.year>TLStart-1000) {
+        if (event.year>=TLStart && event.year-1000<TLStart) {
           event.screenpos = (event.year-TLStart)/1000*100;
           output.push(event);
         }
       }
     }
     
-    return sortedEvents;
+    return output;
   }
 
   if (events&&events.length) {
@@ -71,7 +71,16 @@ function Timeline() {
 
   const handleSubmit = async (e:any) => {
     e.preventDefault();
-    service.addEvent({info:newInfo, name:newName, day:newDay, month:newMonth, year:newYear, time:parseInt(newTime)});
+    service.addEvent(
+      {
+        info:newInfo,
+        name:newName,
+        day:newDay,
+        month:newMonth,
+        year:newYear,
+        time:parseInt(newTime),
+        timeline_id:1})
+      .then((event:any)=>setEvents([...events ,event]));
   }
 
   const handleChange = (e:any) => {
@@ -90,9 +99,43 @@ function Timeline() {
     }
   }
 
+  const startTimeStampMaker = () => {
+    if (currentTLLength==='Year') return 'January '+currentTLStart;
+    return currentTLStart;
+  }
+
+  const endTimeStampMaker = () => {
+    if (currentTLLength==='Year') return 'December '+currentTLStart;
+    if (currentTLLength==='Decade') return currentTLStart+10;
+    if (currentTLLength==='Century') return currentTLStart+100;
+    return currentTLStart+1000;
+  }
+
+  const increaseTLPosition = () => {
+    if (currentTLLength==='Year') return setCurrentTLStart(currentTLStart+1);
+    if (currentTLLength==='Decade') return setCurrentTLStart(currentTLStart+10);
+    if (currentTLLength==='Century') return setCurrentTLStart(currentTLStart+100);
+    setCurrentTLStart(currentTLStart+1000);
+  }
+
+  const decreaseTLPosition = () => {
+    if (currentTLLength==='Year') return setCurrentTLStart(currentTLStart-1);
+    if (currentTLLength==='Decade') return setCurrentTLStart(currentTLStart-10);
+    if (currentTLLength==='Century') return setCurrentTLStart(currentTLStart-100);
+    setCurrentTLStart(currentTLStart-1000);
+  }
+
   return (
     <div className="TimelineContainer">
+      <div className="TimelineDateStamps">
+        <div>{startTimeStampMaker()}</div>
+        <div>{endTimeStampMaker()}</div>
+      </div>
       <div className="TimelineTimeline"/>
+      <div className="TimelineDateStamps">
+        <button onClick={()=>decreaseTLPosition()}>-</button>
+        <button onClick={()=>increaseTLPosition()}>+</button>
+      </div>
       {output&&output.length?
         output.map(element=>
           <div style={{left: element.screenpos+'%'}}>
@@ -118,13 +161,11 @@ function Timeline() {
         <textarea value={newInfo} onChange={handleChange} name='info'></textarea>
         <label>Day:</label>
         <input value={newDay} onChange={handleChange} name='day'></input>
-        <input type="submit" value="Create Topic"/>
         <label>Month:</label>
         <input value={newMonth} onChange={handleChange} name='month'></input>
-        <input type="submit" value="Create Topic"/>
         <label>Year:</label>
         <input value={newYear} onChange={handleChange} name='year'></input>
-        <input type="submit" value="Create Topic"/>
+        <label>Time:</label>
         <input value={newTime} onChange={handleChange} type='time'></input>
         <input type="submit" value="Create Topic"/>
       </form>

@@ -1,4 +1,5 @@
 interface eventSubmissionTypes {
+  timeline_id:number,
   info:string,
   name:string,
   day:number,
