@@ -3,7 +3,7 @@ import service from '../service';
 import Event from '../components/Event';
 import './styles/Timeline.css';
 
-function Timeline() {
+function Timeline({match}:any) {
   const [events, setEvents] = useState([{name:'',id:'',info:'',day:0,month:0,year:0,time:0, screenpos:0}]);
   const [currentTLLength, setCurrentTLLength] = useState('Year');
   const [currentTLStart, setCurrentTLStart] = useState(0);
@@ -13,7 +13,7 @@ function Timeline() {
   const [newMonth, setNewMonth] = useState(0);
   const [newYear, setNewYear] = useState(0);
   const [newTime, setNewTime] = useState('');
-  
+
   let output:any[]=[];
   const positionEvents = (sortedEvents:any[],TLStart:number=currentTLStart) => {
     const output:any[] = [];
@@ -56,8 +56,9 @@ function Timeline() {
 
 
   useEffect(()=>{
-    service.getEvents({timeline_id:1})
+    service.getEvents({timeline_id:match.params.id})
       .then(res=>{
+        if (res.length) {
         let sortedEvents = res.sort((a:any,b:any)=>{
           if (a.year!==b.year) return a.year-b.year;
           if (a.month!==b.month) return a.month-b.month;
@@ -66,8 +67,8 @@ function Timeline() {
         })
         setCurrentTLStart(sortedEvents[0].year);
         setEvents(sortedEvents);
-      });
-  },[]);
+      }else {setEvents([])}});
+  },[match.params.id]);
 
   const handleSubmit = async (e:any) => {
     e.preventDefault();
@@ -79,7 +80,7 @@ function Timeline() {
         month:newMonth,
         year:newYear,
         time:parseInt(newTime),
-        timeline_id:1})
+        timeline_id:match.params.id})
       .then((event:any)=>setEvents([...events ,event]));
   }
 
