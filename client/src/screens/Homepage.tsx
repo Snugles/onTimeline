@@ -18,7 +18,7 @@ function Homepage() {
     service.createTimeline({name:newName, user_id:'1'})
     .then((res:any)=>{
       if (res) {
-        console.log(res.name);
+        setUserTimelines([...userTimelines,res])
       } else {
         console.error('error');
       }
