@@ -32,10 +32,13 @@ function Homepage() {
 
   return (
     <div className="HomeContainer">
-      {userTimelines.map((timeline:timelineInterface) =>
+      {userTimelines&&userTimelines.length?userTimelines.map((timeline:timelineInterface) =>
         <Link to={`/timeline/${timeline.id}`} style={{textDecoration: 'none', color:'black'}} key={timeline.id}>
           {timeline.name}
-        </Link>)}
+        </Link>):
+        <div>
+          No Timelines Found
+        </div>}
         <form onSubmit = {handleSubmit} className='homeForm'>
           <label>Title:</label>
           <input type="text" name="name" value={newName} onChange={handleChange} className="loginInput"/>
