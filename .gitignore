@@ -1,3 +1,3 @@
 env/
-config.txt
+*.txt
 __pycache__/

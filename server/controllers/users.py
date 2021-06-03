@@ -1,5 +1,10 @@
+from flask.json import jsonify
+from flask import Flask, session
+import jwt
+import datetime
 from appFile import request, app, ma, cross_origin
 from models.index import db, User
+
 
 
 class UserSchema(ma.Schema):
@@ -28,8 +33,17 @@ def login():
   password = request.json['password']
   
   user = User.query.filter_by(name=name).first()
+  
 
   if password == user.password:
-    return user_schema.jsonify(user)
+    key = open('jwtKey.txt','r')
+    session['logged_in'] = True
+    token = jwt.encode({
+      'user':name,
+      'exp': datetime.datetime.utcnow() + datetime.timedelta(30)
+    },
+    key.read())
+    key.close()
+    return jsonify({'token':token})
   else:
-    return 'denied'
+    return make_response('Denied', 403)
