@@ -1,6 +1,7 @@
 from appFile import request, app, ma, cross_origin
 from models.index import db, Events
 from flask import jsonify
+from controllers.auth import JWTcheck
 
 class EventSchema(ma.Schema):
   class Meta:
@@ -10,6 +11,7 @@ event_schema = EventSchema()
 
 @app.route('/addEvent', methods=['POST'])
 @cross_origin()
+@JWTcheck
 def addEvent():
   info = request.json['info']
   name = request.json['name']
@@ -27,6 +29,7 @@ def addEvent():
 
 @app.route('/getEvents', methods=['POST'])
 @cross_origin()
+@JWTcheck
 def getEvents():
   timelineID = request.json['timeline_id']
 
@@ -40,6 +43,7 @@ def getEvents():
 
 @app.route('/eventEdit', methods=['PATCH'])
 @cross_origin()
+@JWTcheck
 def eventEditInfo():
   id = request.json['id']
   info = request.json['info']
