@@ -1,5 +1,5 @@
 from flask.json import jsonify
-from flask import Flask, session
+from flask import Flask, session, make_response
 import jwt
 import datetime
 from appFile import request, app, ma, cross_origin
@@ -44,6 +44,8 @@ def login():
     },
     key.read())
     key.close()
-    return jsonify({'token':token})
+    response = make_response('Successful login', 200)
+    response.set_cookie('token', token)
+    return response
   else:
     return make_response('Denied', 403)

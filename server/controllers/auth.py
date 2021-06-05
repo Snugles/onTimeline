@@ -6,7 +6,7 @@ from appFile import request, app
 def JWTcheck(function):
   @wraps(function)
   def decorated(*args, **kwargs):
-    token = request.headers.get('Authorization')
+    token = request.cookies.get('token')
     if not token:
       return 'msg:authentication denied', 403
     try:
