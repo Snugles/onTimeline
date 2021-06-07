@@ -39,13 +39,13 @@ def login():
     key = open('jwtKey.txt','r')
     session['logged_in'] = True
     token = jwt.encode({
-      'user':name,
+      'user':user.id,
       'exp': datetime.datetime.utcnow() + datetime.timedelta(30)
     },
     key.read())
     key.close()
-    response = make_response('Successful login', 200)
+    response = make_response(jsonify(msg='Successful login'), 200)
     response.set_cookie('token', token)
     return response
   else:
-    return make_response('Denied', 403)
+    return jsonify(msg='Denied'), 403

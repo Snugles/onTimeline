@@ -27,13 +27,13 @@ function Login() {
       if (!password.length||!username.length) return setErrorMessage('Please fill all fields');
 
       service.login({name:username, password:password})
-      .then((res:LoginPayload)=>{
-        if (res) {
-          console.log(res.name);
-        } else {
-          setErrorMessage('Login unsuccessful please check username/password');
-        }
-      })
+        .then((res:any)=>{
+          console.log(res);
+          if (res.msg==='Denied') {
+            setErrorMessage('Login unsuccessful please check username/password');
+          } else {
+            window.location.href = 'http://localhost:3000';}
+        })
       .catch((e:string) => console.error(e));
 
     } else {
