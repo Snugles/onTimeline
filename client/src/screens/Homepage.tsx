@@ -9,8 +9,10 @@ function Homepage() {
   const [newName, setNewName] = useState('');
 
   useEffect(()=>{
-    service.getTimelines({user_id:1})
-      .then(res=>setUserTimelines(res));
+    service.getTimelines()
+      .then(res=>{
+        setUserTimelines(res)
+      });
   },[]);
 
   const handleSubmit = (e:any) => {

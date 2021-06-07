@@ -22,13 +22,11 @@ def create():
   db.session.commit()
   return timeline_schema.jsonify(new_timeline)
 
-@app.route('/userTimeline', methods=['POST'])
+@app.route('/userTimeline', methods=['GET'])
 @cross_origin()
 @JWTcheck
-def get():
-  userID = request.json['user_id']
-
-  timeline = Timeline.query.filter_by(user_id=userID).all()
+def get(data):
+  timeline = Timeline.query.filter_by(user_id=data['user']).all()
 
   output = []
   for element in timeline:

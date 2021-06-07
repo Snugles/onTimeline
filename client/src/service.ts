@@ -27,11 +27,10 @@ const apiRequests = {
         .then((results) =>results.json())
         .catch((e:string)=>console.error(e));
   },
-  getTimelines: (payload:{user_id:number}) => {
+  getTimelines: () => {
     return fetch('/userTimeline',{
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)})
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }})
         .then((results) =>results.json())
         .catch((e:string)=>console.error(e));
   },

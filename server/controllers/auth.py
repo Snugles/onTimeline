@@ -12,9 +12,9 @@ def JWTcheck(function):
     try:
       data = jwt.decode(token, app.config['SECRET_KEY'])
     except jwt.InvalidTokenError:
-      return 'Invalid token. Please log in again.'
+      return jsonify(message='Invalid token. Please log in again.')
     except jwt.ExpiredSignatureError:
-      return 'Signature expired. Please log in again.'
-    return function(*args,**kwargs)
+      return jsonify(message='Signature expired. Please log in again.')
+    return function(data,*args,**kwargs)
 
   return decorated
