@@ -12,7 +12,7 @@ timeline_schema = TimelineSchema()
 @app.route('/timeline', methods=['POST'])
 @cross_origin()
 @JWTcheck
-def create():
+def create(data):
   user_id = request.json['user_id']
   name =request.json['name']
 

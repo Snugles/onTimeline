@@ -12,7 +12,7 @@ event_schema = EventSchema()
 @app.route('/addEvent', methods=['POST'])
 @cross_origin()
 @JWTcheck
-def addEvent():
+def addEvent(**kwargs):
   info = request.json['info']
   name = request.json['name']
   timeline_id = request.json['timeline_id']
@@ -30,7 +30,7 @@ def addEvent():
 @app.route('/getEvents', methods=['POST'])
 @cross_origin()
 @JWTcheck
-def getEvents():
+def getEvents(data):
   timelineID = request.json['timeline_id']
 
   events = Events.query.filter_by(timeline_id=timelineID).all()
@@ -44,7 +44,7 @@ def getEvents():
 @app.route('/eventEdit', methods=['PATCH'])
 @cross_origin()
 @JWTcheck
-def eventEditInfo():
+def eventEditInfo(data):
   id = request.json['id']
   info = request.json['info']
   name = request.json['name']
