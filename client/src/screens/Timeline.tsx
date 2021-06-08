@@ -13,6 +13,7 @@ function Timeline({match}:any) {
   const [newMonth, setNewMonth] = useState(0);
   const [newYear, setNewYear] = useState(0);
   const [newTime, setNewTime] = useState('');
+  const [showForm, setShowForm] = useState(false);
 
   let output:any[]=[];
   const positionEvents = (sortedEvents:any[],TLStart:number=currentTLStart) => {
@@ -128,6 +129,10 @@ function Timeline({match}:any) {
 
   return (
     <div className="TimelineContainer">
+      <button onClick={()=>setCurrentTLLength('Year')}>Year</button>
+      <button onClick={()=>setCurrentTLLength('Decade')}>Decade</button>
+      <button onClick={()=>setCurrentTLLength('Century')}>Century</button>
+      <button onClick={()=>setCurrentTLLength('Millenium')}>Millenium</button>
       <div className="TimelineDateStamps">
         <div>{startTimeStampMaker()}</div>
         <div>{endTimeStampMaker()}</div>
@@ -151,25 +156,27 @@ function Timeline({match}:any) {
               timelinePosition={element.screenpos}/>
             </div>)
         :<p>No events</p>}
-      <button onClick={()=>setCurrentTLLength('Year')}>Year</button>
-      <button onClick={()=>setCurrentTLLength('Decade')}>Decade</button>
-      <button onClick={()=>setCurrentTLLength('Century')}>Century</button>
-      <button onClick={()=>setCurrentTLLength('Millenium')}>Millenium</button>
-      <form onSubmit = {handleSubmit} className='homeForm'>
-        <label>Name:</label>
-        <textarea value={newName} onChange={handleChange} name='name'></textarea>
-        <label>Info:</label>
-        <textarea value={newInfo} onChange={handleChange} name='info'></textarea>
-        <label>Day:</label>
-        <input value={newDay} onChange={handleChange} name='day'></input>
-        <label>Month:</label>
-        <input value={newMonth} onChange={handleChange} name='month'></input>
-        <label>Year:</label>
-        <input value={newYear} onChange={handleChange} name='year'></input>
-        <label>Time:</label>
-        <input value={newTime} onChange={handleChange} type='time'></input>
-        <input type="submit" value="Create Topic"/>
-      </form>
+        {showForm?         
+        <div className='TimelineFormContainer'>
+          <button onClick={()=>setShowForm(false)} style={{width:'100%'}}>Hide Event Adder</button>
+          <form onSubmit = {handleSubmit} className='TimelineForm'>
+            <label>Name:</label>
+            <textarea value={newName} onChange={handleChange} name='name'></textarea>
+            <label>Info:</label>
+            <textarea value={newInfo} onChange={handleChange} name='info'></textarea>
+            <label>Day:</label>
+            <input value={newDay} onChange={handleChange} name='day'></input>
+            <label>Month:</label>
+            <input value={newMonth} onChange={handleChange} name='month'></input>
+            <label>Year:</label>
+            <input value={newYear} onChange={handleChange} name='year'></input>
+            <label>Time:</label>
+            <input value={newTime} onChange={handleChange} type='time'></input>
+            <input type="submit" value="Create Topic"/>
+          </form>
+        </div>:
+        <button onClick={()=>setShowForm(true)} className='TimelineFormContainer'>Add Event</button>
+        }
     </div>
   );
 }
