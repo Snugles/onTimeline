@@ -13,10 +13,9 @@ timeline_schema = TimelineSchema()
 @cross_origin()
 @JWTcheck
 def create(data):
-  user_id = request.json['user_id']
   name =request.json['name']
 
-  new_timeline = Timeline(name,user_id)
+  new_timeline = Timeline(name,data['user'])
 
   db.session.add(new_timeline)
   db.session.commit()

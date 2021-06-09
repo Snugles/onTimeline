@@ -1,5 +1,4 @@
 import LoginPayload from './interfaces/loginPayload';
-import timelinePayload from './interfaces/timelinePayload';
 import eventSubmissionTypes from './interfaces/eventSubmissionTypes';
 
 const apiRequests = { 
@@ -19,11 +18,11 @@ const apiRequests = {
         .then((results) =>results.json())
         .catch((e:string)=>console.error(e));
   },
-  createTimeline: (payload:timelinePayload) => {
+  createTimeline: (name:string) => {
     return fetch('/timeline',{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)})
+      body: JSON.stringify({name:name})})
         .then((results) =>results.json())
         .catch((e:string)=>console.error(e));
   },

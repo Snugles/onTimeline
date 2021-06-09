@@ -1,5 +1,5 @@
 from appFile import request, app, ma, cross_origin
-from models.index import db, Events
+from models.index import db, Events, Timeline
 from flask import jsonify
 from controllers.auth import JWTcheck
 
@@ -33,6 +33,9 @@ def addEvent(**kwargs):
 def getEvents(data):
   timelineID = request.json['timeline_id']
 
+  if (Timeline.query.filter_by(id=timelineID).first().user_id!=data['user']):
+    return jsonify(message='You do not own this timeline'), 403
+
   events = Events.query.filter_by(timeline_id=timelineID).all()
 
   output = []
@@ -54,6 +57,9 @@ def eventEditInfo(data):
   time = request.json['time']
 
   event = Events.query.filter_by(id=id).first()
+
+  if (Timeline.query.filter_by(id=event.timeline_id).first().user_id!=data['user']):
+    return jsonify(message='You do not own this timeline'), 403
 
   event.info = info
   event.name = name

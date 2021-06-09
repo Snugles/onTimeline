@@ -14,21 +14,20 @@ function Homepage() {
         if (res.message) {
           window.location.href = 'http://localhost:3000/login';
         }
-        setUserTimelines(res)
+        setUserTimelines(res);
       });
   },[]);
 
   const handleSubmit = (e:any) => {
     e.preventDefault();
-    service.createTimeline({name:newName, user_id:'1'})
-    .then((res:any)=>{
-      if (res) {
-        setUserTimelines([...userTimelines,res])
-      } else {
-        console.error('error');
-      }
-    })
-    .catch((e:string) => console.error(e));
+    service.createTimeline(newName)
+      .then((res:any)=>{
+        if (res) {
+          setUserTimelines([...userTimelines,res]);
+        } else {
+          console.error('error');
+        }})
+      .catch((e:string) => console.error(e));
   }
 
   const handleChange = (e:any) => {
