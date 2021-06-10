@@ -128,17 +128,20 @@ function Timeline({match}:any) {
   }
 
   return (
-    <div className="TimelineContainer">
+    <div className='TimelineContainer'>
+      <input value={currentTLStart} type='number' onChange={(e)=>{
+        setCurrentTLStart(parseInt(e.target.value));
+      }}></input>
       <button onClick={()=>setCurrentTLLength('Year')}>Year</button>
       <button onClick={()=>setCurrentTLLength('Decade')}>Decade</button>
       <button onClick={()=>setCurrentTLLength('Century')}>Century</button>
       <button onClick={()=>setCurrentTLLength('Millenium')}>Millenium</button>
-      <div className="TimelineDateStamps">
+      <div className='TimelineDateStamps'>
         <div>{startTimeStampMaker()}</div>
         <div>{endTimeStampMaker()}</div>
       </div>
-      <div className="TimelineTimeline"/>
-      <div className="TimelineDateStamps">
+      <div className='TimelineTimeline'/>
+      <div className='TimelineDateStamps'>
         <button onClick={()=>decreaseTLPosition()}>-</button>
         <button onClick={()=>increaseTLPosition()}>+</button>
       </div>
@@ -172,7 +175,7 @@ function Timeline({match}:any) {
             <input value={newYear} onChange={handleChange} name='year'></input>
             <label>Time:</label>
             <input value={newTime} onChange={handleChange} type='time'></input>
-            <input type="submit" value="Create Topic"/>
+            <input type='submit' value='Create Topic'/>
           </form>
         </div>:
         <button onClick={()=>setShowForm(true)} className='TimelineFormContainer'>Add Event</button>
