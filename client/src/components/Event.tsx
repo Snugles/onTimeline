@@ -2,19 +2,11 @@ import React from 'react';
 import eventTypes from '../interfaces/eventTypes';
 import './styles/Event.css';
 
-const Event: React.FC<eventTypes> = ({id, timelinePosition, info, name, day, month, year, time}) => {
+const Event: React.FC<eventTypes> = ({id, timelinePosition, name}) => {
 
   return (
     <div key={id} className="EventContainer" style={{left: timelinePosition+'%'}}>
-      <div>
-        {info}
-      </div>
-      <div>
-        {name}
-      </div>
-      <div>
-        {`${day} ${month} ${year} ${time}`}
-      </div>
+      {name}
     </div>
   );
 }

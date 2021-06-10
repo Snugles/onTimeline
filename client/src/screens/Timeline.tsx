@@ -14,6 +14,7 @@ function Timeline({match}:any) {
   const [newYear, setNewYear] = useState(0);
   const [newTime, setNewTime] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [displayedEvent, setDisplayedEvent] = useState(['']);
 
   let output:any[]=[];
   const positionEvents = (sortedEvents:any[],TLStart:number=currentTLStart) => {
@@ -146,19 +147,18 @@ function Timeline({match}:any) {
         <button onClick={()=>increaseTLPosition()}>+</button>
       </div>
       {output&&output.length?
-        output.map(element=>
-          <div style={{left: element.screenpos+'%'}}>
+        output.map((element)=>
+        <div onClick={()=>{setDisplayedEvent([element.name,element.info])}}>
             <Event
               id={element.id}
-              info={element.info}
               name={element.name}
-              day={element.day}
-              month={element.month}
-              year={element.year}
-              time={element.time}
               timelinePosition={element.screenpos}/>
             </div>)
         :<p>No events</p>}
+        {displayedEvent.length===2?<div className='TimelineInfoDisplay'>
+          <div style={{alignSelf:'flex-start'}}>{displayedEvent[0]}</div>
+          {displayedEvent[1]}
+          </div>:<></>}
         {showForm?         
         <div className='TimelineFormContainer'>
           <button onClick={()=>setShowForm(false)} style={{width:'100%'}}>Hide Event Adder</button>
@@ -178,8 +178,7 @@ function Timeline({match}:any) {
             <input type='submit' value='Create Topic'/>
           </form>
         </div>:
-        <button onClick={()=>setShowForm(true)} className='TimelineFormContainer'>Add Event</button>
-        }
+        <button onClick={()=>setShowForm(true)} className='TimelineFormContainer'>Add Event</button>}
     </div>
   );
 }

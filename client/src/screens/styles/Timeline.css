@@ -26,3 +26,14 @@
   right:0;
   min-width: 400px;
 }
+
+.TimelineInfoDisplay{
+  display: flex;
+  flex-direction: column;
+  padding:50px;
+  background-color: coral;
+  position:absolute;
+  bottom:0;
+  width: 100%;
+  box-sizing: border-box;
+}

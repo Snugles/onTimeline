@@ -1,3 +1,4 @@
 .EventContainer{
   position: fixed;
+  transform: rotate(310deg);
 }
