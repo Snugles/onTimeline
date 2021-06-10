@@ -12,7 +12,7 @@ event_schema = EventSchema()
 @app.route('/addEvent', methods=['POST'])
 @cross_origin()
 @JWTcheck
-def addEvent(**kwargs):
+def addEvent(data):
   info = request.json['info']
   name = request.json['name']
   timeline_id = request.json['timeline_id']
