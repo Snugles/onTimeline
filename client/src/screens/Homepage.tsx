@@ -11,10 +11,12 @@ function Homepage() {
   useEffect(()=>{
     service.getTimelines()
       .then(res=>{
-        if (res.message) {
-          window.location.href = 'http://localhost:3000/login';
+        if (res){
+          if (res.message) {
+            window.location.href = 'http://localhost:3000/login';
+          }
+          setUserTimelines(res);
         }
-        setUserTimelines(res);
       });
   },[]);
 
