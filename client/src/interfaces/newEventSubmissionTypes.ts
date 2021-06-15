@@ -1,4 +1,4 @@
-interface eventSubmissionTypes {
+interface newEventSubmissionTypes {
   timeline_id:number,
   info:string,
   name:string,
@@ -7,4 +7,4 @@ interface eventSubmissionTypes {
   year:number,
   time:number
 }
-export default eventSubmissionTypes;
+export default newEventSubmissionTypes;

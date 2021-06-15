@@ -23,8 +23,15 @@
 .TimelineFormContainer{
   position:absolute;
   bottom:0;
-  right:0;
   min-width: 400px;
+}
+
+.TimelineNew{
+  right:0;
+}
+
+.TimelineEdit{
+  left:0;
 }
 
 .TimelineInfoDisplay{

@@ -69,4 +69,4 @@ def eventEditInfo(data):
   event.time = time
   db.session.commit()
 
-  return jsonify({'name':event.name,'info':event.info, 'day':event.day, 'month':event.month, 'year':event.year, 'time':event.time})
+  return jsonify({'name':event.name,'info':event.info, 'day':event.day, 'month':event.month, 'year':event.year, 'time':event.time, 'id':event.id})

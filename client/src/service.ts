@@ -1,5 +1,6 @@
 import LoginPayload from './interfaces/loginPayload';
-import eventSubmissionTypes from './interfaces/eventSubmissionTypes';
+import newEventSubmissionTypes from './interfaces/newEventSubmissionTypes';
+import editEventSubmissionTypes from './interfaces/editEventSubmissionTypes'
 
 const apiRequests = { 
   login: (payload:LoginPayload) => {
@@ -41,9 +42,17 @@ const apiRequests = {
         .then((results) =>results.json())
         .catch((e:string)=>console.error(e));
   },
-  addEvent: (payload:eventSubmissionTypes) => {
+  addEvent: (payload:newEventSubmissionTypes) => {
     return fetch('/addEvent',{
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)})
+        .then((results) =>results.json())
+        .catch((e:string)=>console.error(e));
+  },
+  editEvent: (payload:editEventSubmissionTypes) => {
+    return fetch('/eventEdit',{
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)})
         .then((results) =>results.json())
