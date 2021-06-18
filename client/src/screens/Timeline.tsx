@@ -205,14 +205,15 @@ function Timeline({match}:any) {
       </div>
       {output&&output.length?
         output.map((element)=>
-        <div onClick={()=>displayEvent(element)}>
+          <div onClick={()=>displayEvent(element)}>
             <Event
               id={element.id}
               name={element.name}
               timelinePosition={element.screenpos}/>
-            </div>)
+          </div>)
         :<p>No events</p>}
         {displayedEvent.length===3?<div className='TimelineInfoDisplay'>
+          <div style={{alignSelf:'flex-end'}} onClick={()=>setDisplayedEvent([])}>Close</div>
           <div style={{alignSelf:'flex-start'}}>{displayedEvent[0]}</div>
           {displayedEvent[1]}
           {showEditEventForm?
