@@ -4,7 +4,7 @@ import Event from '../components/Event';
 import './styles/Timeline.css';
 
 function Timeline({match}:any) {
-  const [events, setEvents] = useState([{name:'',id:'',info:'',day:0,month:0,year:0,time:0, screenpos:0}]);
+  const [events, setEvents] = useState([{name:'',id:'',info:'',day:0,month:0,year:0,time:0,screenpos:0}]);
   const [currentTLLength, setCurrentTLLength] = useState('Year');
   const [currentTLStart, setCurrentTLStart] = useState(0);
   const [newName, setNewName] = useState('');
@@ -18,7 +18,7 @@ function Timeline({match}:any) {
   const [editDay, setEditDay] = useState(0);
   const [editMonth, setEditMonth] = useState(0);
   const [editYear, setEditYear] = useState(0);
-  const [editTime, setEditTime] = useState('');
+  const [editTime, setEditTime] = useState(0);
   const [showNewEventForm, setShowNewEventForm] = useState(false);
   const [showEditEventForm, setShowEditEventForm] = useState(false);
   const [displayedEvent, setDisplayedEvent] = useState(['']);
@@ -102,7 +102,7 @@ function Timeline({match}:any) {
         day:editDay,
         month:editMonth,
         year:editYear,
-        time:parseInt(editTime),
+        time:editTime,
         id:parseInt(displayedEvent[2])})
       .then((event:any)=>{
         let newEvents = events;
@@ -175,6 +175,16 @@ function Timeline({match}:any) {
     setCurrentTLStart(currentTLStart-1000);
   }
 
+  const displayEvent = (element:{name:string,info:string,id:string,day:number,month:number,year:number,time:number}) => {
+    setDisplayedEvent([element.name,element.info,element.id])
+    setEditName(element.name);
+    setEditInfo(element.info);
+    setEditDay(element.day);
+    setEditMonth(element.month);
+    setEditYear(element.year);
+    setEditTime(element.time);
+  }
+
   return (
     <div className='TimelineContainer'>
       <input value={currentTLStart} type='number' onChange={(e)=>{
@@ -195,9 +205,7 @@ function Timeline({match}:any) {
       </div>
       {output&&output.length?
         output.map((element)=>
-        <div onClick={()=>{
-          console.log(events)
-          setDisplayedEvent([element.name,element.info,element.id])}}>
+        <div onClick={()=>displayEvent(element)}>
             <Event
               id={element.id}
               name={element.name}
