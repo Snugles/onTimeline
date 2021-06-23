@@ -5,7 +5,7 @@ from datetime import datetime
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-config = open('config.txt','r')
+config = open('sqlalchemyUri.txt','r')
 
 uri = config.read()
 
@@ -24,7 +24,7 @@ manager.add_command('db', MigrateCommand)
 class User(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(50))
-  password = db.Column(db.String(50))
+  password = db.Column(db.String(256))
   date_created = db.Column(db.DateTime, default=datetime.now)
 
 class Timeline(db.Model):
