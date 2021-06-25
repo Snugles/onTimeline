@@ -150,15 +150,41 @@ function Timeline({match}:any) {
   }
 
   const startTimeStampMaker = () => {
-    if (currentTLLength==='Year') return 'January '+currentTLStart;
-    return currentTLStart;
+    if (currentTLLength==='Year') {
+      if (currentTLStart>=0) {      
+        return 'January '+currentTLStart+' AD';
+      }
+      return 'January '+-currentTLStart+' BC';
+    }
+    if (currentTLStart>=0) {      
+      return currentTLStart+' AD';
+    }
+    return -currentTLStart+' BC';
   }
 
   const endTimeStampMaker = () => {
-    if (currentTLLength==='Year') return 'December '+currentTLStart;
-    if (currentTLLength==='Decade') return currentTLStart+10;
-    if (currentTLLength==='Century') return currentTLStart+100;
-    return currentTLStart+1000;
+    if (currentTLLength==='Year') {
+      if (currentTLStart>=0) {      
+        return 'December '+currentTLStart+' AD';
+      }
+      return 'December '+-currentTLStart+' BC';
+    }
+    if (currentTLLength==='Decade') {
+      if (currentTLStart+10>=0) {      
+        return (currentTLStart+10)+' AD';
+      }
+      return -(currentTLStart+10)+' BC';
+    }
+    if (currentTLLength==='Century') {
+      if (currentTLStart+100>=0) {      
+        return (currentTLStart+100)+' AD';
+      }
+      return -(currentTLStart+100)+' BC';
+    }
+    if (currentTLStart+1000>=0) {      
+      return (currentTLStart+1000)+' AD';
+    }
+    return -(currentTLStart+1000)+' BC';
   }
 
   const increaseTLPosition = () => {
