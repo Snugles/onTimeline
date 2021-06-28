@@ -235,7 +235,8 @@ function Timeline({match}:any) {
             <Event
               id={element.id}
               name={element.name}
-              timelinePosition={element.screenpos}/>
+              timelinePosition={element.screenpos}
+              info={element.info}/>
           </div>)
         :<p>No events</p>}
         {displayedEvent.length===3?<div className='TimelineInfoDisplay'>

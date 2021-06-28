@@ -1,4 +1,14 @@
 .EventContainer{
   position: fixed;
+}
+
+.EventName{
   transform: rotate(310deg);
+}
+
+.EventPreview{
+  background-color: red;
+  padding:10px;
+  margin-top: 25px;
+  position: fixed;
 }

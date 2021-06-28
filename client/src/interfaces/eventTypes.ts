@@ -1,6 +1,7 @@
 interface eventTypes {
   id:string,
   timelinePosition:number,
-  name:string
+  name:string,
+  info:string
 }
 export default eventTypes;
