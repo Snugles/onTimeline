@@ -12,7 +12,7 @@ class UserSchema(ma.Schema):
 
 user_schema = UserSchema()
 
-@app.route('/user', methods=['POST','GET'])
+@app.route('/user', methods=['POST'])
 @cross_origin()
 def userQueries():
   name = request.json['name']
